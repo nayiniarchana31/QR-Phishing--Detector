@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Phishing Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>QR Phishing Detector</h1>
+      <p>
+        Upload a QR code image to scan the embedded URL for phishing threats.
+      </p>
+      <div class="pipeline">
+        <span>QR Upload</span><b>→</b><span>Decode QR</span><b>→</b>
+        <span>Extract URL</span><b>→</b><span>20 Features</span><b>→</b>
+        <span>Gradient Boosting</span><b>→</b><span>Prediction</span>
+      </div>
+    </header>
+
+    <main class="card">
+      <div id="drop-zone" class="drop-zone">
+        <h3>Drop QR Code Image Here</h3>
+        <p>or click to browse (PNG, JPG, WEBP)</p>
+        <input type="file" id="file-input" accept="image/*" hidden />
+      </div>
+
+      <div id="preview-area" class="preview-area hidden">
+        <img id="preview-img" alt="QR code preview" />
+        <button id="clear-btn" class="secondary" type="button">
+          Remove image
+        </button>
+      </div>
+
+      <button id="scan-btn" type="button" disabled>Scan for Phishing</button>
+      <div id="error-box" class="error hidden" role="alert"></div>
+      <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+        <p>Decoding QR Code and analysing URL...</p>
+      </div>
+    </main>
+
+    <section id="result-section" class="card result hidden">
+      <div id="verdict-badge" class="verdict-badge">
+        <span id="verdict-icon"></span>
+        <strong id="verdict-text"></strong>
+      </div>
+      <h3>Decoded URL</h3>
+      <div id="decoded-url" class="url-box"></div>
+
+      <div class="confidence-row">
+        <span>Confidence</span><strong id="conf-label"></strong>
+      </div>
+      <div class="bar-track"><div id="conf-bar" class="bar-fill"></div></div>
+
+      <div class="proba-row">
+        <div class="proba-box safe-box">
+          <div class="label">Safe Probability</div>
+          <div class="value" id="safe-prob">—</div>
+        </div>
+        <div class="proba-box danger-box">
+          <div class="label">Phishing Probability</div>
+          <div class="value" id="danger-prob">—</div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Feature Breakdown (20 Features)</summary>
+        <table class="feature-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="feat-tbody"></tbody>
+        </table>
+      </details>
+    </section>
+
+    <footer>
+      Powered by <strong>Gradient Boosting</strong> · 20 URL Features · FastAPI
+      Backend
+    </footer>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
